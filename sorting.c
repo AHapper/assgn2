@@ -31,6 +31,7 @@ void MergeSort(uint32_t *a, uint32_t len); // merge sort
 
 void merge(uint32_t *a, uint32_t *aleft, uint32_t *aright, uint32_t lenleft, uint32_t lenright); // merges two "halves" array
 
+
 // initialization for move/compare counts
 int mcompare = 0;
 int bcompare = 0;
@@ -49,10 +50,10 @@ int main(int argc, char **argv){
 
     // allocate some memory for the array
     uint32_t *astation; // "stationary" array that holds random numbers so the array can reset
-    astation = calloc(sizeof(uint32_t),1000);
+    astation = calloc(sizeof(uint32_t),100000);
 
     uint32_t *array;
-    array = calloc(sizeof(uint32_t),1000);
+    array = calloc(sizeof(uint32_t),100000);
 
     // initialize arguments
     int elements;
@@ -371,11 +372,11 @@ void bubbleSort(uint32_t a[], uint32_t length)
 
         for(int i = 0; i < n; i++){
             
+            bcompare++;
             if(a[i-1] > a[i]){
                 SWAP(a[i-1], a[i]);
                 swapped = 1;
                 bmove += 3;
-                bcompare++;
             }
         }
 
@@ -414,19 +415,22 @@ void insertionSort(uint32_t a[], uint32_t length)
 // sorted recursively using the function quickSort.
 void quickSort(uint32_t *a,uint32_t len){
 
-    uint32_t *aleft = a;                 
-    uint32_t *aright = a + 1;           
-    uint32_t lenleft = 0;                
-    uint32_t lenright = len - 1;         
-    int k = 0;                      
-    int mid = 1;                    
+    uint32_t *aleft = a;             //pointer to beginning of the array--doesn't change 
+    uint32_t *aright = a + 1;        //pointer to beginning of the "right" side--this shifts
+    uint32_t lenleft = 0;            //number of elements in the left array
+    uint32_t lenright = len - 1;     //number of elements in the right array
+    int k = 0;                       //array index of rightmost value in middle group
+    int mid = 1;                     //number of elements (identical) in the middle group
 
-    if(len == 0){ 
+    if(len == 0){                   //return if there are no array elements left to sort
         return;
-    }
+    } 
+   
     
     for(int i = 1; i < len; i++){
 
+        //if the element is equal to the middle value, we need to move it to the right
+        //of our current rightmost middle value
         if(a[k] == a[i]){           
             aright++;
             SWAP(a[k+1],a[i]);
@@ -436,11 +440,20 @@ void quickSort(uint32_t *a,uint32_t len){
             lenright--;
             qcompare++;                  
         }
-
+        
+        //if the element is bigger than our middle value, it is already on the correct
+        //side so we don't need to do anything and just move on to check the next element
         else if(a[k] < a[i]){
             qcompare++;                  
         }
 
+        //if the element is smaller than our middle value, we need to shift it to the left
+        //array, which we do in two steps. For example, if our array currently looks like
+        //3 5 7 7 8 9 4 5 and we are about to check i = 6 with k = 3, the first SWAP will get us
+        //3 5 7 7 4 9 8 5 and the second SWAP will move the leftmost middle value to become the 
+        //rightmost middle value:
+        //3 5 4 7 7 9 8 5 and we move on to check the last value of the array. Note that now
+        //our right array has become one smaller and the left array has become one bigger.
         else{
             SWAP(a[k+1],a[i]);
             qmove += 3;
@@ -466,15 +479,18 @@ void quickSort(uint32_t *a,uint32_t len){
 // the right sides, merging the two sides together as it goes by using the function "merge" (defined below)
 void MergeSort(uint32_t *a, uint32_t len){
     if(len > 1){
+        // pointers to left and right arrays
         uint32_t *aleft = a;                 
-        uint32_t *aright = a + len/2;            
+        uint32_t *aright = a + len/2;   
+        // lengths of left and right arrays          
         uint32_t lenleft = len/2;                
         uint32_t lenright = len - len/2;
 
-        // allocates memory for the left and right "lists"
+        // allocates memory for the left and right arrays
         aleft = (uint32_t*) malloc(sizeof(uint32_t)*(len/2)); 
 	    aright = (uint32_t*) malloc(sizeof(uint32_t)*(len - len/2)); 
 
+        // fills left and right arrays
         for(int i = 0; i < len/2; i++){
             aleft[i] = a[i];
             Mmove++;
@@ -485,6 +501,7 @@ void MergeSort(uint32_t *a, uint32_t len){
             Mmove++;
         }
          
+        // recursively sorts left and right arrays 
         MergeSort(aleft, lenleft);
         MergeSort(aright, lenright);
         merge(a, aleft, aright, lenleft, lenright);
@@ -501,10 +518,11 @@ void MergeSort(uint32_t *a, uint32_t len){
 // compares the elements from the left and right "lists", determines which is smaller, and places them back into 
 // the array in the correct order. 
 void merge(uint32_t *a, uint32_t *aleft, uint32_t *aright, uint32_t lenleft, uint32_t lenright){
-    int i = 0;                     
-    int b = 0;
-    int c = 0;
+    int i = 0;  // marks index for array                   
+    int b = 0;  // marks index for left array
+    int c = 0;  // marks index for right array
 
+    // compares left and right arrays to determine least element
     while(b < lenleft && c < lenright){
         Mcompare++;
         if(aleft[b] <= aright[c]){
@@ -520,6 +538,7 @@ void merge(uint32_t *a, uint32_t *aleft, uint32_t *aright, uint32_t lenleft, uin
         i++;
     }      
 
+    // accounts for remaining elements 
     while(b < lenleft){
         a[i] = aleft[b];
         b++;
@@ -527,6 +546,7 @@ void merge(uint32_t *a, uint32_t *aleft, uint32_t *aright, uint32_t lenleft, uin
         Mmove++;
     }
 
+    // accounts for remaining elements 
     while(c < lenright){
         a[i] = aright[c];
         c++;
