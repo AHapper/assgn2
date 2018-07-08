@@ -15,7 +15,7 @@
 #endif
 
 // functions
-void printArray(uint32_t a[], uint32_t length); // prints array
+void printArray(uint32_t a[], uint32_t length); // prints array elements
 
 void minSort(uint32_t a[], uint32_t length); // min-sort
 
@@ -27,9 +27,9 @@ void insertionSort(uint32_t a[], uint32_t length); // insertion sort
 
 void quickSort(uint32_t *a,uint32_t len); // quick sort - (credited to J. Happer)
 
-void merge(uint32_t *a, uint32_t *aleft, uint32_t *aright, uint32_t lenleft, uint32_t lenright); // merges two "halves" array
-
 void MergeSort(uint32_t *a, uint32_t len); // merge sort
+
+void merge(uint32_t *a, uint32_t *aleft, uint32_t *aright, uint32_t lenleft, uint32_t lenright); // merges two "halves" array
 
 // initialization for move/compare counts
 int mcompare = 0;
