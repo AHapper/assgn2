@@ -33,17 +33,17 @@ void merge(uint32_t *a, uint32_t *aleft, uint32_t *aright, uint32_t lenleft, uin
 
 
 // initialization for move/compare counts
-int mcompare = 0;
-int bcompare = 0;
-int icompare = 0;
-int qcompare = 0;
-int Mcompare = 0;
+unsigned long long int mcompare = 0;
+unsigned long long int bcompare = 0;
+unsigned long long int icompare = 0;
+unsigned long long int qcompare = 0;
+unsigned long long int Mcompare = 0;
 
-int mmove = 0;
-int bmove = 0;
-int imove = 0;
-int qmove = 0;
-int Mmove = 0;
+unsigned long long int mmove = 0;
+unsigned long long int bmove = 0;
+unsigned long long int imove = 0;
+unsigned long long int qmove = 0;
+unsigned long long int Mmove = 0;
 
 int main(int argc, char **argv){
     int c = 0; // options
@@ -176,7 +176,7 @@ int main(int argc, char **argv){
         minSort(array, length);
 
         printf("Min Sort: \n");
-        printf("%d elements\n %d moves\n %d compares\n", length, mmove, mcompare);
+        printf("%d elements\n %llu moves\n %llu compares\n", length, mmove, mcompare);
         printArray(array, n);
 
         // reset
@@ -189,7 +189,7 @@ int main(int argc, char **argv){
         bubbleSort(array, length);
 
         printf("Bubble Sort: \n");
-        printf("%d elements\n %d moves\n %d compares\n", length, bmove, bcompare);
+        printf("%d elements\n %llu moves\n %llu compares\n", length, bmove, bcompare);
         printArray(array, n);
 
         // reset
@@ -202,7 +202,7 @@ int main(int argc, char **argv){
         insertionSort(array, length);
 
         printf("Insertion Sort: \n");
-        printf("%d elements\n %d moves\n %d compares\n", length, imove, icompare);
+        printf("%d elements\n %llu moves\n %llu compares\n", length, imove, icompare);
         printArray(array, n);
 
         // reset
@@ -215,7 +215,7 @@ int main(int argc, char **argv){
         quickSort(array, length);
 
         printf("Quick Sort: \n"); 
-        printf("%d elements\n %d moves\n %d compares\n", length, qmove, qcompare);
+        printf("%d elements\n %llu moves\n %llu compares\n", length, qmove, qcompare);
         printArray(array, n);
 
         // reset
@@ -228,7 +228,7 @@ int main(int argc, char **argv){
         MergeSort(array, length);
 
         printf("Merge Sort: \n"); 
-        printf("%d elements\n %d moves\n %d compares\n", length, Mmove, Mcompare);
+        printf("%d elements\n %llu moves\n %llu compares\n", length, Mmove, Mcompare);
         printArray(array, n);
 
         // reset
@@ -242,7 +242,7 @@ int main(int argc, char **argv){
 
         printf("Min Sort: \n");
         
-        printf("%d elements\n %d moves\n %d compares\n", length, mmove, mcompare);
+        printf("%d elements\n %llu moves\n %llu compares\n", length, mmove, mcompare);
 
         printArray(array, n);
 
@@ -258,7 +258,7 @@ int main(int argc, char **argv){
 
         printf("Bubble Sort: \n");
 
-        printf("%d elements\n %d moves\n %d compares\n", length, bmove, bcompare);
+        printf("%d elements\n %llu moves\n %llu compares\n", length, bmove, bcompare);
 
         printArray(array, n);
 
@@ -273,7 +273,7 @@ int main(int argc, char **argv){
 
         printf("Insertion Sort: \n");
 
-        printf("%d elements\n %d moves\n %d compares\n", length, imove, icompare);
+        printf("%d elements\n %llu moves\n %llu compares\n", length, imove, icompare);
 
         printArray(array, n);
 
@@ -288,7 +288,7 @@ int main(int argc, char **argv){
 
         printf("Quick Sort: \n");
 
-        printf("%d elements\n %d moves\n %d compares\n", length, qmove, qcompare);
+        printf("%d elements\n %llu moves\n %llu compares\n", length, qmove, qcompare);
 
         printArray(array, n);
 
@@ -303,7 +303,7 @@ int main(int argc, char **argv){
 
         printArray(array, n);
 
-        printf("%d elements\n %d moves\n %d compares\n", length, Mmove, Mcompare);
+        printf("%d elements\n %llu moves\n %llu compares\n", length, Mmove, Mcompare);
 
         // reset
         for(int n = 0; n < length; n++){
@@ -372,11 +372,11 @@ void bubbleSort(uint32_t a[], uint32_t length)
 
         for(int i = 0; i < n; i++){
             
-            bcompare++;
             if(a[i-1] > a[i]){
                 SWAP(a[i-1], a[i]);
                 swapped = 1;
                 bmove += 3;
+                bcompare++;
             }
         }
 
